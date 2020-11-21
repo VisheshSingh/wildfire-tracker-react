@@ -2,7 +2,17 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import LocationMarker from './LocationMarker';
 
-const Map = ({ center, zoom }) => {
+const Map = ({ center, zoom, eventData }) => {
+  const markers = eventData.map((e) => {
+    if (e.categories[0].id === 8) {
+      return (
+        <LocationMarker
+          lat={e.geometries[0].coordinates[1]}
+          lng={e.geometries[0].coordinates[0]}
+        />
+      );
+    }
+  });
   return (
     <div className='map'>
       <GoogleMapReact
@@ -10,7 +20,7 @@ const Map = ({ center, zoom }) => {
         defaultCenter={center}
         defaultZoom={zoom}
       >
-        <LocationMarker lat={center.lat} lng={center.lng} />
+        {markers}
       </GoogleMapReact>
     </div>
   );
